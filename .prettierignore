@@ -1,0 +1,31 @@
+# Ignore build output directories
+build/
+dist/
+out/
+public/
+
+# Ignore dependency directories
+node_modules/
+
+# Ignore config files or logs
+*.log
+*.lock
+
+# Ignore git and IDE files
+.git/
+.vscode/
+.idea/
+
+# Ignore minified or compiled files
+*.min.js
+*.bundle.js
+*.map
+
+# Ignore generated CSS from preprocessors
+*.css.map
+
+# Ignore coverage reports
+coverage/
+
+
+/src/shared/ui*
