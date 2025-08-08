@@ -1,3 +1,5 @@
+import AuthButton from '@/features/auth/components/auth-button';
+import { createClient } from '@/lib/supabase/server';
 import InfoMenu from '@/shared/components/navbar-components/info-menu';
 import Logo from '@/shared/components/navbar-components/logo';
 import UserMenu from '@/shared/components/navbar-components/user-menu';
@@ -17,8 +19,11 @@ const navigationLinks = [
   { href: '#', label: 'About' },
 ];
 
-export default function EuropaNavbar() {
-  const isAuthed = false;
+export default async function EuropaNavbar() {
+  const supabase = await createClient();
+  const { data: { user }, error } = await supabase.auth.getUser();
+  console.log(user);
+  const isAuthed = !!user;
   return (
     <header className='border-b px-4 md:px-6'>
       <div className='flex h-16 items-center justify-between gap-4'>
@@ -106,9 +111,7 @@ export default function EuropaNavbar() {
             {isAuthed ? (
               <UserMenu />
             ) : (
-              <Button variant='outline' className='shadow-none'>
-                Login into Europa
-              </Button>
+              <AuthButton/>
             )}
           </div>
         </div>
