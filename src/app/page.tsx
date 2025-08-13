@@ -1,7 +1,6 @@
-import Link from "next/link"
 import { Badge } from "@/shared/ui/badge"
-import { Button } from "@/shared/ui/button"
-import { Check, MoveRight, BookOpen, Compass, Repeat } from 'lucide-react'
+import { Check, BookOpen, Compass, Repeat } from 'lucide-react'
+
 
 export default function Home() {
   const mvpFeatures = [
@@ -46,16 +45,7 @@ export default function Home() {
                   {"Whether you’re mastering a new skill, exploring a passion, or reinventing yourself, Europa helps you become the teacher of your own journey."}
                 </p>
               </div>
-              <div className="flex flex-row gap-3">
-                <Link href={"#features"}>
-                  <Button size="lg" className="gap-4">
-                    {"Learn more"} <MoveRight className="w-4 h-4" aria-hidden="true" />
-                  </Button>
-                </Link>
-                <Button size="lg" className="gap-4" variant={"outline"}>
-                  {"Sign Up"}
-                </Button>
-              </div>
+           
             </div>
           </div>
         </div>

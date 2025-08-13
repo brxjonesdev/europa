@@ -13,7 +13,7 @@ export default function AuthButton() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: `${window.location.origin}/home`,
+                redirectTo: `${window.location.origin}/dashboard`,
             },
             
         })
