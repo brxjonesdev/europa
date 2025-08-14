@@ -24,7 +24,7 @@ export default async function User() {
 
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
-      <CardHeader>
+      <CardHeader className='border-b'>
         <CardTitle>Good Evening, Weiss Velvenhart.</CardTitle>
         <CardDescription className='text-xs max-w-sm font-mono'>
           “To educate myself, I had to understand everything. Starting with

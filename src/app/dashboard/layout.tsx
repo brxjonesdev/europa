@@ -1,14 +1,11 @@
-import { Card } from '@/shared/ui/card';
 import type React from 'react';
 
 export default function DashboardLayout({
   goals,
-  tasks,
   user,
   weekly,
 }: {
   goals: React.ReactNode;
-  tasks: React.ReactNode;
   user: React.ReactNode;
   weekly: React.ReactNode;
 }) {
@@ -18,8 +15,6 @@ export default function DashboardLayout({
         <div className='flex gap-4 flex-col md:w-3/12 '>
           <div className='w-full'>{user}</div>
           <div className='w-full'>{weekly}</div>
-          <div className='w-full'>{tasks}</div>
-          
         </div>
         <div className='flex flex-col flex-1'>{goals}</div>
       </section>
