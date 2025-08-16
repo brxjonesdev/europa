@@ -28,15 +28,10 @@ const pages: Page[] = [
     description: "Use streaks, progress tracking, and weekly reflections to build consistency and celebrate your wins.",
   },
   {
-    title: "Get Started",
-    description: "Let’s set up your first topic and learning goal.",
-    // optional call-to-action content:
-    content: (
-        <Button className="w-full" size={"lg"}>
-            Start your first topic!
-        </Button>
-    )
+  title: "You're all set!",
+  description: "Europa is ready whenever you are. Explore, create topics, and make learning your own.",
   }
+
 ]
 
 export default pages

@@ -21,6 +21,7 @@ export default async function Goals() {
   if (error || !user) {
     redirect('/');
   }
+  const goals = []
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>
@@ -35,9 +36,29 @@ export default async function Goals() {
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent>
-        
+      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative'>
+       <div
+    className="absolute inset-0 z-0"
+    style={{
+      background: "#ffffff",
+      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
+      backgroundSize: "24px 24px",
+    }}
+  />
+        {goals.length === 0 && (
+          <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
+            <CardContent className='text-center space-y-2'>
+              <CardTitle className='lg:text-2xl'>No Goals Yet</CardTitle>
+              <CardDescription className='mb-4 text-center'>
+                You haven&apos;t added any goals yet. Click the button above to add
+                your first goal.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        )}
       </CardContent>
     </Card>
   );
 }
+
+
