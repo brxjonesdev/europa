@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import {
   BoltIcon,
   BookOpenIcon,
@@ -18,11 +18,11 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { User } from '@supabase/supabase-js';
-import Avatar from "boring-avatars";
+import Avatar from 'boring-avatars';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
-export default function UserMenu({user}: {user: User}) {
+export default function UserMenu({ user }: { user: User }) {
   const supabase = createClient();
   const router = useRouter();
 
@@ -31,18 +31,18 @@ export default function UserMenu({user}: {user: User}) {
     if (error) {
       console.error('Error signing out:', error);
     }
-    router.push('/')
-  }
+    router.push('/');
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar
-           size={30}
-            name={user.email as string}
-            variant="bauhaus"
-            colors={["#393d3f","#fdfdff","#c6c5b9","#62929e","#546a7b"]}
-            className='hover:cursor-pointer hover:scale-105'
-          />
+          size={30}
+          name={user.email as string}
+          variant='bauhaus'
+          colors={['#393d3f', '#fdfdff', '#c6c5b9', '#62929e', '#546a7b']}
+          className='hover:cursor-pointer hover:scale-105'
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='max-w-64' align='end'>
         <DropdownMenuLabel className='flex min-w-0 flex-col'>

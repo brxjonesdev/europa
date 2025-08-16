@@ -1,6 +1,8 @@
 ### **Europa**
 
-**Europa** is a personal learning companion that helps self-taught learners turn curiosity into mastery. Track your skills, map your knowledge, and see your progress — all in one place.
+**Europa** is a personal learning companion that helps self-taught learners turn
+curiosity into mastery. Track your skills, map your knowledge, and see your
+progress — all in one place.
 
 ---
 
@@ -9,8 +11,8 @@
 - **Skill Mapping** – Visualize what you know and where to grow next
 - **Learning Logs** – Record insights, breakthroughs, and resources
 - **Milestone Tracking** – Set goals and celebrate achievements
-- **Modular Categories** – Organize by topics, projects, or skill trees 
-- **Offline First** – Keep learning even without internet access 
+- **Modular Categories** – Organize by topics, projects, or skill trees
+- **Offline First** – Keep learning even without internet access
 
 ---
 
