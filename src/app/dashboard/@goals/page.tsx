@@ -35,6 +35,9 @@ export default async function Goals() {
           </Button>
         </CardAction>
       </CardHeader>
+      <CardContent>
+        
+      </CardContent>
     </Card>
   );
 }

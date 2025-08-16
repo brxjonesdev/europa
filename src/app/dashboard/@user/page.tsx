@@ -2,15 +2,15 @@ import { createClient } from '@/lib/supabase/server';
 import {
   Card,
   CardAction,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardContent
 } from '@/shared/ui/card';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import Avatar from 'boring-avatars';
+import LogoutButton from '@/features/auth/components/logout-btn';
 
 export default async function User() {
   const supabase = await createClient();
@@ -22,17 +22,36 @@ export default async function User() {
     redirect('/');
   }
 
+  const hour = new Date().getHours();
+  let greeting = '';
+
+  switch (true) {
+    case hour < 12:
+      greeting = 'Good Morning';
+      break;
+    case hour < 18:
+      greeting = 'Good Afternoon';
+      break;
+    case hour < 21:
+      greeting = 'Good Evening';
+      break;
+    case hour >= 21:
+      greeting = 'Good Night';
+      break;
+    default:
+      greeting = 'Hello';
+  }
+
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>
-        <CardTitle>Good Evening, Weiss Velvenhart.</CardTitle>
-        <CardDescription className='text-xs max-w-sm font-mono'>
-          “To educate myself, I had to understand everything. Starting with
-          myself.” — Marjane Satrapi
+        <CardTitle>{greeting}, {user.user_metadata.full_name} </CardTitle>
+        <CardDescription className='text-[0.65rem] max-w-xs font-mono'>
+          <LogoutButton/>
         </CardDescription>
         <CardAction>
           <Avatar
-            size={30}
+            size={35}
             name={user.email as string}
             variant='bauhaus'
             colors={['#393d3f', '#fdfdff', '#c6c5b9', '#62929e', '#546a7b']}
@@ -40,6 +59,17 @@ export default async function User() {
           />
         </CardAction>
       </CardHeader>
+      <CardContent>
+        <section>
+          {/* Streaks go here */}
+        </section>
+        <section>
+          {/* Progress on goals goes here */}
+        </section>
+        <section>
+          {/* Milestones go here */}
+        </section>
+      </CardContent>
     </Card>
   );
 }
