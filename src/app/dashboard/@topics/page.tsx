@@ -1,5 +1,5 @@
-import AddTopicButton from '@/features/topics/components/add-topic-btn';
-import AddGoalButton from '@/features/topics/components/add-topic-btn';
+import AddTopicButton from '@/features/knowledge-base/components/add-topic-btn';
+import AddGoalButton from '@/features/knowledge-base/components/add-topic-btn';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/shared/ui/button';
 import {

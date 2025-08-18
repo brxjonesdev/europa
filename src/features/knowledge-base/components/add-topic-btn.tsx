@@ -10,7 +10,9 @@ import {
   CredenzaTitle,
   CredenzaTrigger,
 } from "@/shared/ui/modal"
-import AddGoalForm from './add-topic-form'
+import { AddTopicForm } from './add-topic-form'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+
 
 export default function AddTopicButton() {
   return (
@@ -21,15 +23,17 @@ export default function AddTopicButton() {
       Add Topic
     </Button>
   </CredenzaTrigger>
-  <CredenzaContent>
-    <CredenzaHeader className='border-b '>
+  <CredenzaContent className='w-full '>
+    <VisuallyHidden>
+      <CredenzaHeader className=''>
       <CredenzaTitle>Start learning a new topic!</CredenzaTitle>
       <CredenzaDescription className='text-xs md:text-sm'>
         Create a new space for adding resources and research material.
       </CredenzaDescription>
     </CredenzaHeader>
-    <CredenzaBody className='text-sm pb-4 md:pb-0'>
-      <AddGoalForm/>
+    </VisuallyHidden>
+    <CredenzaBody className='text-sm  md:pb-0 w-full'>
+      <AddTopicForm/>
     </CredenzaBody>
   </CredenzaContent>
 </Credenza>
