@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import { set, z } from "zod"
 import { Button } from "@/shared/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card"
 import { Input } from "@/shared/ui/input"
@@ -11,9 +11,10 @@ import { Textarea } from "@/shared/ui/textarea"
 import { CheckCircle, ChevronLeft, ChevronRight, Plus, Trash2, BookOpen, Target} from "lucide-react"
 import { Badge } from "@/shared/ui/badge"
 import { Label } from "@/shared/ui/label"
-import { addTopic } from "../services"
-import { Topic } from "../types"
+import { addLearningObjective, addTopic} from "../services"
+import { LearningObjective, Topic } from "../types"
 import { useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
 
 const formSchema = z.object({
   topicTitle: z
@@ -52,8 +53,9 @@ type FormData = z.infer<typeof formSchema>
 
 export function AddTopicForm() {
   const router = useRouter()
+  const supabase = createClient()
   const [currentStep, setCurrentStep] = useState(1)
-  
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const totalSteps = 3
 
@@ -101,26 +103,43 @@ export function AddTopicForm() {
   }
 
   const onSubmit = async (data: FormData) => {
+    const supabase = await createClient()
+    const { data:{ user }, error } = await supabase.auth.getUser()
+    if( error || !user?.id) {
+      setIsSubmitting(false)
+      return
+    }
+    setIsSubmitting(true)
+    // split data into topic and objectives
+    const id = crypto.randomUUID()
     const newTopic: Topic = {
-      id: crypto.randomUUID(),
+      id,
+      ownerId: user.id,
       title: data.topicTitle,
       description: data.topicDescription,
-      reasoning: data.topicReasoning,
-      learningObjectives: data.learningObjectives.map((obj) => ({
-        id: obj.id,
-        title: obj.title,
-        description: obj.description,
-        reasoning: obj.reasoning,
-      })),
-      ownerId: "",
       createdAt: new Date().toISOString(),
+      reasoning: data.topicReasoning
     }
-    const result = await addTopic(newTopic)
-    if (!result.ok) {
-      // Handle error
+    const objectives: LearningObjective[] = data.learningObjectives.map((obj) => ({
+      ...obj,
+      id: crypto.randomUUID(),
+      topicId: id
+    }))
+    // insert topic
+     const topicResult = await addTopic(newTopic)
+     if (!topicResult.ok) {
+      setIsSubmitting(false)
+      // Handle error (e.g., show notification)
+     }
+    // then insert objectives
+    const objectiveResult = await addLearningObjective(objectives)
+    if (!objectiveResult.ok) {
+      setIsSubmitting(false)
+      // Handle error (e.g., show notification)
+      return
     }
+    setIsSubmitting(false)
     resetForm()
-    router.prefetch(`/learning/${newTopic.id}`)
     router.push(`/learning/${newTopic.id}`)
   }
 

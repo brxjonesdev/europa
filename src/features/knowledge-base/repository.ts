@@ -1,13 +1,23 @@
-import { Topic } from "./types";
+import { LearningObjective, Topic } from "./types";
 import { createClient } from "@/lib/supabase/client";
 import { err, ok, Result } from "@/shared/types";
+import { create } from "domain";
 
 export interface KnowledgeBaseRepository {
+    // Topics
     createTopic(topic: Topic): Promise<Topic>;
     getTopicById(id: string): Promise<Topic | null>;
     updateTopic(topic: Topic): Promise<Topic | null>;
     deleteTopic(id: string): Promise<boolean>;
     getUserTopics(userId: string): Promise<Topic[]>;
+
+    // Learning Objectives
+    createLearningObjective(objective: LearningObjective): Promise<LearningObjective>;
+    createManyLearningObjectives(objectives: LearningObjective[]): Promise<LearningObjective[]>;
+    getLearningObjectiveById(id: string): Promise<LearningObjective | null>;
+    updateLearningObjective(objective: LearningObjective): Promise<LearningObjective | null>;
+    deleteLearningObjective(id: string): Promise<boolean>;
+    getLearningObjectivesByTopicId(topicId: string): Promise<LearningObjective[]>;
 }
 
 export const KnowledgeBaseRepository = {
@@ -17,6 +27,8 @@ export const KnowledgeBaseRepository = {
             .from("topic")
             .insert(topic)
             .single();
+
+            console.log(data, error, "boos");
 
         if (error) {
             return err(`Failed to create topic: ${error.message}`);
@@ -72,6 +84,34 @@ export const KnowledgeBaseRepository = {
             return [];
         }
         return data;
+    },
+
+    // Learning Objectives
+    createLearningObjective: async (objective: LearningObjective): Promise<Result<LearningObjective, string>> => {
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from("objective")
+            .insert(objective)
+            .single();
+
+        if (error) {
+            return err(`Failed to create learning objective: ${error.message}`);
+        }
+        return ok(data);
+    },
+    createManyLearningObjectives: async (objectives: LearningObjective[]): Promise<Result<LearningObjective[], string>> => {
+        const supabase = await createClient();
+        console.log("Creating multiple learning objectives:", objectives);
+        const { data, error } = await supabase
+            .from("objective")
+            .insert(objectives);
+
+        console.log("Created multiple learning objectives:", data, error);
+
+        if (error) {
+            return err(`Failed to create learning objectives: ${error.message}`);
+        }
+        return ok(data ?? []);
     }
 
 }

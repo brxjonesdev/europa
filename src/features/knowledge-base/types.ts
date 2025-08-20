@@ -6,7 +6,7 @@ export interface Topic {
     title: string;
     description: string;
     createdAt: string;
-    learningObjectives: LearningObjective[];
+    learningObjectives?: LearningObjective[];
     reasoning?: string;
 }
 
