@@ -9,7 +9,9 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  console.log('User:', user); 
   if (user) {
+    console.log('User is already logged in, redirecting to dashboard...');
     redirect('/dashboard');
   }
   const mvpFeatures = [

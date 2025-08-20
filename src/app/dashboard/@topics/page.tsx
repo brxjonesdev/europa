@@ -21,7 +21,7 @@ export default async function KnowledgeBase() {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  if (error || !user) {
+  if (error || !user?.id) {
     redirect('/');
   }
   
@@ -53,15 +53,15 @@ export default async function KnowledgeBase() {
   />
         <Suspense fallback={<div>Loading topics...</div>}>
           {topics.map((topic) => (
-            <Card key={topic.id} className='z-10 shadow-xs h-fit '>
-              <CardHeader className=''>
-                <CardTitle className=''>{topic.title}</CardTitle>
-                <CardDescription className=''>
+            <Card key={topic.id} className='z-10 shadow-xs col-span-full'>
+              <CardHeader className='text-center space-y-2'>
+                <CardTitle className='lg:text-2xl'>{topic.title}</CardTitle>
+                <CardDescription className='mb-4 text-center'>
                   {topic.description}
                 </CardDescription>
                 <CardAction>
                   <Button asChild>
-                  <Link href={`/learning/${topic.id}`}>
+                  <Link href={`/topics/${topic.id}`}>
                     View Topic
                   </Link>
                   </Button>
