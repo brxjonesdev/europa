@@ -30,7 +30,7 @@ export const getTopicById = async (id: string) => {
     return err("Failed to retrieve topic");
 };
 
-export const getUserTopics = async (userId: string) => {
+export const getUserTopics = async (userId: string) : Promise<Result<Topic[], string>> => {
     const response = await KnowledgeBaseRepository.getUserTopics(userId);
     if (response) {
         return ok(response);

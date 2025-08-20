@@ -78,7 +78,7 @@ export const KnowledgeBaseRepository = {
         const { data, error } = await supabase
             .from("topic")
             .select("*")
-            .eq("user_id", userId);
+            .eq("owner_id", userId);
 
         if (error) {
             return [];

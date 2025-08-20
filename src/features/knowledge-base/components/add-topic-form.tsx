@@ -53,7 +53,6 @@ type FormData = z.infer<typeof formSchema>
 
 export function AddTopicForm() {
   const router = useRouter()
-  const supabase = createClient()
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -379,7 +378,7 @@ export function AddTopicForm() {
                 
                 className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
               >
-                Create Learning Path
+                {isSubmitting ? "Creating..." : "Create Learning Path"}
                 <CheckCircle className="w-4 h-4" />
               </Button>
             )}

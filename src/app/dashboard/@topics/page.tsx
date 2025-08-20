@@ -1,5 +1,6 @@
 import AddTopicButton from '@/features/knowledge-base/components/add-topic-btn';
-import AddGoalButton from '@/features/knowledge-base/components/add-topic-btn';
+import { getUserTopics } from '@/features/knowledge-base/services';
+import { Topic } from '@/features/knowledge-base/types';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/shared/ui/button';
 import {
@@ -10,9 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
-import { PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export default async function KnowledgeBase() {
   const supabase = await createClient();
@@ -23,7 +24,13 @@ export default async function KnowledgeBase() {
   if (error || !user) {
     redirect('/');
   }
-  const goals = []
+  
+  const result = await getUserTopics(user.id);
+  if(!result.ok) {
+    redirect('/');
+  }
+  const topics: Topic[] = result.data;
+
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>
@@ -44,7 +51,25 @@ export default async function KnowledgeBase() {
       backgroundSize: "24px 24px",
     }}
   />
-        {goals.length === 0 && (
+        <Suspense fallback={<div>Loading topics...</div>}>
+          {topics.map((topic) => (
+            <Card key={topic.id} className='z-10 shadow-xs h-fit '>
+              <CardHeader className=''>
+                <CardTitle className=''>{topic.title}</CardTitle>
+                <CardDescription className=''>
+                  {topic.description}
+                </CardDescription>
+                <CardAction>
+                  <Button asChild>
+                  <Link href={`/learning/${topic.id}`}>
+                    View Topic
+                  </Link>
+                  </Button>
+                </CardAction>
+              </CardHeader>
+            </Card>
+          ))}
+          {topics.length === 0 && (
           <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
             <CardContent className='text-center space-y-2'>
               <CardTitle className='lg:text-2xl'>No Topics Yet</CardTitle>
@@ -55,6 +80,7 @@ export default async function KnowledgeBase() {
             </CardContent>
           </Card>
         )}
+        </Suspense>
       </CardContent>
     </Card>
   );
