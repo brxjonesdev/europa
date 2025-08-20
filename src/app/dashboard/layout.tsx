@@ -3,10 +3,10 @@ import { OnboardingView } from '@/features/onboarding/components/onboarding-view
 import type React from 'react';
 
 export default function DashboardLayout({
-  goals,
+  topics,
   user,
 }: {
-  goals: React.ReactNode;
+  topics: React.ReactNode;
   user: React.ReactNode;
 }) {
   return (
@@ -16,7 +16,7 @@ export default function DashboardLayout({
         <div className='flex gap-4 flex-col md:w-3/12 '>
           <div className='w-full'>{user}</div>
         </div>
-        <div className='flex flex-col flex-1'>{goals}</div>
+        <div className='flex flex-col flex-1'>{topics}</div>
       </section>
     </main>
   );

@@ -30,9 +30,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${epilogue.variable} antialiased font-epilogue h-dvh flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${epilogue.variable} antialiased font-epilogue h-dvh flex flex-col`} vault-drawer-wrapper=""
       >
-        {children}
+      {children}
       </body>
     </html>
   );
