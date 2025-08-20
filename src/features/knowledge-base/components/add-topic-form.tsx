@@ -8,10 +8,12 @@ import { Button } from "@/shared/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card"
 import { Input } from "@/shared/ui/input"
 import { Textarea } from "@/shared/ui/textarea"
-import { Progress } from "@/shared/ui/progress"
-import { CheckCircle, ChevronLeft, ChevronRight, Plus, Trash2, BookOpen, Target, Lightbulb } from "lucide-react"
+import { CheckCircle, ChevronLeft, ChevronRight, Plus, Trash2, BookOpen, Target} from "lucide-react"
 import { Badge } from "@/shared/ui/badge"
 import { Label } from "@/shared/ui/label"
+import { addTopic } from "../services"
+import { Topic } from "../types"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   topicTitle: z
@@ -49,11 +51,12 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export function AddTopicForm() {
+  const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  
 
   const totalSteps = 3
-  const progress = (currentStep / totalSteps) * 100
+
 
   const {
     register,
@@ -97,9 +100,28 @@ export function AddTopicForm() {
     }
   }
 
-  const onSubmit = (data: FormData) => {
-    console.log("Learning topic created:", data)
-    setIsSubmitted(true)
+  const onSubmit = async (data: FormData) => {
+    const newTopic: Topic = {
+      id: crypto.randomUUID(),
+      title: data.topicTitle,
+      description: data.topicDescription,
+      reasoning: data.topicReasoning,
+      learningObjectives: data.learningObjectives.map((obj) => ({
+        id: obj.id,
+        title: obj.title,
+        description: obj.description,
+        reasoning: obj.reasoning,
+      })),
+      ownerId: "",
+      createdAt: new Date().toISOString(),
+    }
+    const result = await addTopic(newTopic)
+    if (!result.ok) {
+      // Handle error
+    }
+    resetForm()
+    router.prefetch(`/learning/${newTopic.id}`)
+    router.push(`/learning/${newTopic.id}`)
   }
 
   const isStepValid = () => {
@@ -133,37 +155,10 @@ export function AddTopicForm() {
   }
 
   const resetForm = () => {
-    setIsSubmitted(false)
     setCurrentStep(1)
     reset()
   }
 
-  if (isSubmitted) {
-    return (
-      <Card className="w-full max-w-2xl mx-auto pb-4">
-        <CardContent className="pt-8">
-          <div className="text-center space-y-6">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-10 h-10 text-green-600" />
-            </div>
-            <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-green-700">Learning Path Created!</h2>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Your personalized learning journey has been set up. We'll help you break down your goals into actionable
-                milestones and tasks.
-              </p>
-            </div>
-            <div className="flex gap-3 justify-center">
-              <Button onClick={resetForm} variant="outline">
-                Create Another Topic
-              </Button>
-              <Button>View My Learning Path</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    )
-  }
 
   const stepTitles = ["What do you want to learn?", "Why does this matter to you?", "What are your learning goals?"]
 
@@ -231,7 +226,7 @@ export function AddTopicForm() {
                 <div className="space-y-1">
                   <p className="font-medium text-sm text-cyan-900">Why does motivation matter?</p>
                   <p className="text-xs text-cyan-700">
-                    Understanding your "why" helps us create a more personalized learning experience and keeps you
+                    Understanding your &quot;why&quot; helps us create a more personalized learning experience and keeps you
                     motivated throughout your journey.
                   </p>
                 </div>
@@ -333,8 +328,8 @@ export function AddTopicForm() {
 
               <div className="p-4 bg-amber-50 rounded-lg border border-amber-200 md:block hidden">
                 <p className="text-sm text-amber-800">
-                  <strong>Tip:</strong> Good learning objectives are specific and measurable. Instead of "learn
-                  programming," try "build a personal website using HTML, CSS, and JavaScript."
+                  <strong>Tip:</strong> Good learning objectives are specific and measurable. Instead of &quot;learn
+                  programming,&quot; try &quot;build a personal website using HTML, CSS, and JavaScript.&quot;
                 </p>
               </div>
             </div>
@@ -362,6 +357,7 @@ export function AddTopicForm() {
               <Button
                 type="submit"
                 disabled={!isStepValid()}
+                
                 className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
               >
                 Create Learning Path

@@ -15,14 +15,14 @@ export interface LearningObjective {
     title: string;
     description: string;
     reasoning?: string;
-    milestones: Milestone[];
+    milestones?: Milestone[];
 }
 
 export interface Milestone {
     id: string;
     title: string;
     description: string;
-    tasks: Task[];
+    tasks?: Task[];
 }
 
 export interface Task {
