@@ -25,12 +25,13 @@ export default async function KnowledgeBase() {
     redirect('/');
   }
   
-  const result = await getUserTopics(user.id);
-  if(!result.ok) {
-    redirect('/');
-  }
-  const topics: Topic[] = result.data;
+  // const result = await getUserTopics(user.id);
+  // if(!result.ok) {
+  //   redirect('/');
+  // }
+  // const topics: Topic[] = result.data;
 
+  const topics = []
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>

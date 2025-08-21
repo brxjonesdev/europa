@@ -24,7 +24,6 @@ export default async function EuropaNavbar() {
               className='text-primary hover:text-primary/90'
             >
               <Logo />
-              <LogoutButton />
             </a>
           </div>
         </div>
