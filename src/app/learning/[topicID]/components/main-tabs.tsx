@@ -1,12 +1,5 @@
 'use client';
-
-import { Button } from '@/shared/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { BanIcon, MoreHorizontalIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Objectives from './tabs/objectives';
-import Resources from './tabs/resources';
-import Notes from './tabs/notes';
 import { Topic } from '@/features/knowledge-base/types';
 import MultiCard from './tabs/multi-card';
 
