@@ -69,7 +69,7 @@ export default function TopicCard({ topic }: { topic: Topic }) {
     <Card className='group hover:shadow-md transition-all duration-200 border-border/50 hover:border-border z-10 h-fit'>
       <Link href={`/learning/${topic.id}`} className='block'>
         <CardHeader className='pb-2 gap-2 '>
-          <div className='flex flex-col lg:flex-row lg:items-center justify-between lg:gap-4'>
+          <div className='flex flex-col 2xl:flex-row 2xl:items-center justify-between lg:gap-4'>
             <CardTitle className='text-xl font-bold  transition-colors line-clamp-2 font-epilogue'>
               {topic.title}
             </CardTitle>
