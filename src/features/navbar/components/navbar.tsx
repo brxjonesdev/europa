@@ -1,9 +1,8 @@
 import AuthButton from '@/features/auth/components/auth-button';
 import { createClient } from '@/lib/supabase/server';
-import InfoMenu from '@/features/navbar/components/info-menu';
 import Logo from '@/features/navbar/components/logo';
 import UserMenu from '@/features/navbar/components/user-menu';
-import LogoutButton from '@/features/auth/components/logout-btn';
+import Link from 'next/link';
 
 export default async function EuropaNavbar() {
   const supabase = await createClient();
@@ -11,27 +10,33 @@ export default async function EuropaNavbar() {
     data: { user },
   } = await supabase.auth.getUser();
   return (
-    <header className='rounded-xl  m-2 md:mx-4 px-2 '>
-      <div className='flex h-10 items-center justify-between gap-4'>
-        {/* Left side */}
-        <div className='flex items-center gap-2'>
-          {/* Main nav */}
-          <div className='flex items-center gap-6'>
-            <a
-              href={`
-              ${user ? `/dashboard` : `/`}
-              `}
-              className='text-primary hover:text-primary/90'
+    <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4  ">
+        <div className="flex h-16 items-center justify-between border-b">
+          {/* Left side */}
+          <div className="flex items-center gap-8">
+            {/* Logo */}
+            <Link
+              href={user ? `/dashboard` : `/`}
+              className="flex items-center gap-2 text-primary hover:text-primary/90 transition-colors"
             >
-              <Logo />
-            </a>
+              <Logo /> 
+            </Link>
+
+          
           </div>
-        </div>
-        {/* Right side */}
-        <div className='flex items-center gap-4'>
-          <div className='flex items-center gap-2'>
-            <InfoMenu />
-            {user ? <UserMenu user={user} /> : <AuthButton />}
+
+          {/* Right side */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <UserMenu user={user} />
+                </div>
+              ) : (
+                <AuthButton />
+              )}
+            </div>
           </div>
         </div>
       </div>

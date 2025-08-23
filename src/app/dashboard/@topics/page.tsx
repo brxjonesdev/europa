@@ -44,7 +44,7 @@ export default async function KnowledgeBase() {
           <AddTopicButton/>
         </CardAction>
       </CardHeader>
-      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative grid-rows-3'>
+      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative grid-rows-auto overflow-y-auto p-4'>
        <div
     className="absolute inset-0 z-0"
     style={{

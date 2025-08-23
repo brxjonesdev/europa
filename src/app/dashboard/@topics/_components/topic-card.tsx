@@ -51,11 +51,11 @@ export default function TopicCard({ topic }: { topic: Topic }) {
   const isEmpty = objectiveCount === 0
 
   return (
-    <Card className="group hover:shadow-md transition-all duration-200 border-border/50 hover:border-border z-10">
+    <Card className="group hover:shadow-md transition-all duration-200 border-border/50 hover:border-border z-10 h-fit">
       <Link href={`/learning/${topic.id}`} className="block">
-        <CardHeader className="pb-2 gap-0">
+        <CardHeader className="pb-2 gap-0 ">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 font-epilogue">
+            <CardTitle className="text-xl font-bold  transition-colors line-clamp-2 font-epilogue">
               {topic.title}
             </CardTitle>
             {isEmpty ? (
@@ -73,9 +73,9 @@ export default function TopicCard({ topic }: { topic: Topic }) {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="pt-0 ">
+        <CardContent className="pt-0 h-64 flex flex-col justify-between">
           {isEmpty ? (
-            <div className="flex flex-col items-center justify-center py-6 text-center bg-black/10 rounded-xl">
+            <div className="flex flex-col items-center justify-center py-6 text-center bg-black/10 rounded-xl flex-1">
               <div className="rounded-full bg-muted p-3 mb-3">
                 <BookOpen className="h-5 w-5 text-muted-foreground" />
               </div>
@@ -87,7 +87,7 @@ export default function TopicCard({ topic }: { topic: Topic }) {
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <div className="flex items-center justify-between text-xs text-muted-foreground flex-1">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />

@@ -10,12 +10,12 @@ export default function DashboardLayout({
   user: React.ReactNode;
 }) {
   return (
-    <main className=' flex flex-col p-4 max-h-screen flex-1'>
+    <main className=' flex flex-col p-4 max-h-screen flex-1 container mx-auto px-4'>
       <OnboardingView/>
       <section className='flex-1 flex-col md:flex-row flex gap-4'>
-        <div className='flex gap-4 flex-col md:w-3/12 '>
+        {/* <div className='flex gap-4 flex-col md:w-3/12 '>
           <div className='w-full'>{user}</div>
-        </div>
+        </div> */}
         <div className='flex flex-col flex-1'>{topics}</div>
       </section>
     </main>

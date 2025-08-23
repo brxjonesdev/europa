@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Epilogue } from 'next/font/google';
 import './globals.css';
+import EuropaNavbar from '@/features/navbar/components/navbar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${epilogue.variable} antialiased font-epilogue h-dvh flex flex-col`} vault-drawer-wrapper=""
       >
+        <EuropaNavbar />
       {children}
       </body>
     </html>
