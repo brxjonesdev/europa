@@ -119,18 +119,21 @@ export const KnowledgeBaseRepository = {
 
     return topic;
   },
-  updateTopic: async (topic: Topic): Promise<Topic | null> => {
+  updateTopic: async (id: string, topic: Partial<Topic>): Promise<Result<boolean, string>> => {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('topic')
-      .update(topic)
-      .eq('id', topic.id)
-      .single();
+      .update({
+        title: topic.title,
+        description: topic.description,
+      })
+      .eq('id', id)
+      
 
     if (error) {
-      return null;
+      return err(`Failed to update topic: ${error.message}`);
     }
-    return data;
+    return ok(true);
   },
   deleteTopic: async (id: string): Promise<boolean> => {
     const supabase = await createClient();

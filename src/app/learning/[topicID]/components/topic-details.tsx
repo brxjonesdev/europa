@@ -1,3 +1,5 @@
+"use client";
+
 import { Topic } from '@/features/knowledge-base/types';
 import { Button } from '@/shared/ui/button';
 import {
@@ -20,39 +22,119 @@ import {
 } from '@/shared/ui/dialog';
 import { Separator } from '@/shared/ui/separator';
 import Placeholder from '@/shared/ui/placeholder';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shared/ui/form";
+import { useForm } from "react-hook-form";
+import { updateTopic } from '@/features/knowledge-base/services';
+
+type TopicFormValues = {
+  title: string;
+  description: string;
+};
 
 export default function TopicDetails({ data }: { data: Topic }) {
+  const [details, setDetails] = React.useState<Partial<Topic>>({
+    title: data.title,
+    description: data.description,
+  });
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const form = useForm<TopicFormValues>({
+    defaultValues: {
+      title: data.title,
+      description: data.description,
+    },
+  });
+
+  async function onSubmit(values: TopicFormValues) {
+    setDetails({
+      title: values.title,
+      description: values.description,
+    });
+    const result = await updateTopic(data.id, {
+      title: values.title,
+      description: values.description,
+    });
+    if (!result.ok) {
+      console.error('Failed to update topic:', result.error);
+      return;
+    }
+    setIsOpen(false);
+  }
+
   return (
-    <Card className='h-fit shadow-none'>
-      <CardHeader className=''>
-        <CardTitle>{data.title}</CardTitle>
-        <CardDescription className='text-xs'>
-          {data.description}
+    <Card className="h-fit shadow-none">
+      <CardHeader>
+        <CardTitle>{details.title}</CardTitle>
+        <CardDescription className="text-xs">
+          {details.description}
         </CardDescription>
         <CardAction>
-          <Dialog>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-              <Button variant={'outline'} className='ml-auto'>
-                <Edit2 />
+              <Button variant="outline" className="ml-auto">
+                <Edit2 className="mr-2 h-4 w-4" />
                 <span>Edit Topic</span>
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogTitle>Edit Topic Details</DialogTitle>
                 <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Change the title and description of this topic.
                 </DialogDescription>
               </DialogHeader>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="title">Title</FormLabel>
+                        <FormControl>
+                          <input id="title" {...field} className="w-full border rounded p-2" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="description">Description</FormLabel>
+                        <FormControl>
+                          <textarea
+                            id="description"
+                            {...field}
+                            className="w-full border rounded p-2"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit">Save</Button>
+                </form>
+              </Form>
             </DialogContent>
           </Dialog>
         </CardAction>
       </CardHeader>
+
       <Separator />
+
       <CardHeader>
         <CardTitle>Overview</CardTitle>
-        <CardDescription className='text-xs'>
+        <CardDescription className="text-xs">
           Insight into the topic&apos;s learning objectives.
         </CardDescription>
       </CardHeader>

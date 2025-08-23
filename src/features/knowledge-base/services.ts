@@ -18,13 +18,15 @@ export const addTopic = async (
 };
 
 export const updateTopic = async (
-  topic: Topic,
-): Promise<Result<Topic, string>> => {
-  const response = await KnowledgeBaseRepository.updateTopic(topic);
-  if (response) {
-    return ok(response);
+  id: string,
+  topic: Partial<Topic>,
+): Promise<Result<boolean, string>> => {
+  console.log('Updating topic:', id, keysToSnake(topic));
+  const response = await KnowledgeBaseRepository.updateTopic(id, topic);
+  if (response.ok) {
+    return ok(true);
   }
-  return err('Failed to update topic');
+  return err(response.error ?? 'Failed to update topic');
 };
 
 export const getTopicById = async (id: string) => {
