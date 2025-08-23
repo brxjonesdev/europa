@@ -6,6 +6,8 @@ export interface Topic {
   createdAt: string;
   learningObjectives?: LearningObjective[];
   reasoning?: string;
+  resources?: Resource[];
+  notes?: Note[];
 }
 
 export interface LearningObjective {
@@ -31,4 +33,19 @@ export interface Task {
   milestoneId: string;
   description: string;
   completed: boolean;
+}
+
+export interface Resource{
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }

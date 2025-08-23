@@ -2,6 +2,7 @@ import React from 'react';
 import ViewSelect from './components/main-tabs';
 import TopicDetails from './components/topic-details';
 import { getTopicById } from '@/features/knowledge-base/services';
+import { redirect } from 'next/navigation';
 
 export default async function LearningPage({
   params,
@@ -11,10 +12,9 @@ export default async function LearningPage({
   const { topicID } = await params;
   const result = await getTopicById(topicID);
   if (!result.ok) {
-    throw new Error('Failed to fetch topic details');
+    redirect(`/dashboard`)
   }
   const topic = result.data;
-  console.log('Fetched topic:', topic);
 
   return (
     <main className='container mx-auto p-4 flex-1 flex flex-col'>
@@ -23,7 +23,7 @@ export default async function LearningPage({
           <TopicDetails data={topic} />
         </div>
         <div className='md:w-8/12 flex-1 p-2'>
-          <ViewSelect />
+          <ViewSelect data={topic} />
         </div>
       </section>
     </main>
