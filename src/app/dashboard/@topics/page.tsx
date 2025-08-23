@@ -14,6 +14,7 @@ import {
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
+import TopicCard from './_components/topic-card';
 
 export default async function KnowledgeBase() {
   const supabase = await createClient();
@@ -43,7 +44,7 @@ export default async function KnowledgeBase() {
           <AddTopicButton/>
         </CardAction>
       </CardHeader>
-      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative'>
+      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative grid-rows-3'>
        <div
     className="absolute inset-0 z-0"
     style={{
@@ -54,21 +55,7 @@ export default async function KnowledgeBase() {
   />
         <Suspense fallback={<div>Loading topics...</div>}>
           {topics.map((topic) => (
-            <Card key={topic.id} className='z-10 shadow-xs col-span-full'>
-              <CardHeader className='text-center space-y-2'>
-                <CardTitle className='lg:text-2xl'>{topic.title}</CardTitle>
-                <CardDescription className='mb-4 text-center'>
-                  {topic.description}
-                </CardDescription>
-                <CardAction>
-                  <Button asChild>
-                  <Link href={`/topics/${topic.id}`}>
-                    View Topic
-                  </Link>
-                  </Button>
-                </CardAction>
-              </CardHeader>
-            </Card>
+            <TopicCard key={topic.id} topic={topic} />
           ))}
           {topics.length === 0 && (
           <Card className='z-10 shadow-xs col-span-full items-center justify-center'>

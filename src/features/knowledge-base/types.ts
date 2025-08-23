@@ -1,5 +1,3 @@
-// So it's topic -> learning objective -> milestone -> task.
-// So it's topic -> learning objective -> milestone -> task.
 export interface Topic {
     id: string;
     ownerId: string;
