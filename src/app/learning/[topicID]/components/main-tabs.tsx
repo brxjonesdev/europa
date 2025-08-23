@@ -27,27 +27,18 @@ export default function ViewSelect({ data }: { data: Topic }) {
         </TabsTrigger>
       </TabsList>
 
-      <div className='flex-1  p-4 border rounded-md overflow-auto'>
+      <div className='flex-1  p-4 border rounded-md overflow-auto '>
         <TabsContent value='objectives' className='h-full'>
-          {data.learningObjectives && data.learningObjectives.length > 0 ? (
-            <MultiCard type='objectives' content={data.learningObjectives} />
-          ) : (
-            <p>No learning objectives found.</p>
-          )}
+          <MultiCard
+            type='objectives'
+            content={data.learningObjectives ?? []}
+          />
         </TabsContent>
-        <TabsContent value='resources' className='h-full'>
-          {data.resources && data.resources.length > 0 ? (
-            <MultiCard type='resources' content={data.resources} />
-          ) : (
-            <p>No resources found.</p>
-          )}
+        <TabsContent value='resources' className='h-full '>
+          <MultiCard type='resources' content={data.resources ?? []} />
         </TabsContent>
-        <TabsContent value='notes' className='h-full'>
-          {data.notes && data.notes.length > 0 ? (
-            <MultiCard type='notes' content={data.notes} />
-          ) : (
-            <p>No notes found.</p>
-          )}
+        <TabsContent value='notes' className='h-full '>
+          <MultiCard type='notes' content={data.notes ?? []} />
         </TabsContent>
       </div>
     </Tabs>

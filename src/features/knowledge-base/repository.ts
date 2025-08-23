@@ -99,7 +99,7 @@ export const KnowledgeBaseRepository = {
           milestones: (obj.milestone || []).map(
             (ms: any): Milestone => ({
               id: ms.id,
-              learningObjectivesId: ms.learning_objective_id,
+              learningObjectiveId: ms.learning_objective_id,
               title: ms.title,
               description: ms.description,
               tasks: (ms.task || []).map(
@@ -143,15 +143,53 @@ export const KnowledgeBaseRepository = {
   },
   getUserTopics: async (userId: string): Promise<Topic[]> => {
     const supabase = await createClient();
+
     const { data, error } = await supabase
       .from('topic')
-      .select('*')
+      .select(
+        `
+      id,
+      owner_id,
+      title,
+      description,
+      created_at,
+      reasoning,
+      objective (
+        id,
+        topic_id,
+        title,
+        description,
+        reasoning
+      )
+    `,
+      )
       .eq('owner_id', userId);
 
     if (error) {
+      console.error('Error fetching user topics:', error);
       return [];
     }
-    return data;
+
+    return (data ?? []).map(
+      (item: any): Topic => ({
+        id: item.id,
+        ownerId: item.owner_id,
+        title: item.title,
+        description: item.description,
+        createdAt: item.created_at,
+        reasoning: item.reasoning,
+        learningObjectives: (item.objective || []).map(
+          (obj: any): LearningObjective => ({
+            id: obj.id,
+            topicId: obj.topic_id,
+            title: obj.title,
+            description: obj.description,
+            reasoning: obj.reasoning,
+            milestones: [], // left empty since not selected here
+          }),
+        ),
+      }),
+    );
   },
 
   // Learning Objectives

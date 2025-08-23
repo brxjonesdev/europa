@@ -12,7 +12,7 @@ export default async function LearningPage({
   const { topicID } = await params;
   const result = await getTopicById(topicID);
   if (!result.ok) {
-    redirect(`/dashboard`)
+    redirect(`/dashboard`);
   }
   const topic = result.data;
 

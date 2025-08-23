@@ -1,9 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function Objectives() {
-  return (
-    <section>
-        
-    </section>
-  )
+  return <section></section>;
 }

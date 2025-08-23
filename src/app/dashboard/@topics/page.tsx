@@ -31,6 +31,7 @@ export default async function KnowledgeBase() {
     redirect('/');
   }
   const topics: Topic[] = result.data;
+  console.log(topics, 'topics');
 
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>

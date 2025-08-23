@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function Notes() {
-  return (
-    <div>NOtes</div>
-  )
+  return <div>NOtes</div>;
 }

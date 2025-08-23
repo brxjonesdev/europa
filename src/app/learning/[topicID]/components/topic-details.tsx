@@ -19,6 +19,7 @@ import {
   DialogTrigger,
 } from '@/shared/ui/dialog';
 import { Separator } from '@/shared/ui/separator';
+import Placeholder from '@/shared/ui/placeholder';
 
 export default function TopicDetails({ data }: { data: Topic }) {
   return (
@@ -55,7 +56,9 @@ export default function TopicDetails({ data }: { data: Topic }) {
           Insight into the topic&apos;s learning objectives.
         </CardDescription>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        <Placeholder message="An overview of the topic's learning objectives like progress tracking and such will be displayed here." />
+      </CardContent>
     </Card>
   );
 }

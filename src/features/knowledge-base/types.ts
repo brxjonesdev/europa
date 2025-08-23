@@ -2,8 +2,8 @@ export interface Topic {
   id: string;
   ownerId: string;
   title: string;
-  description: string;
-  createdAt: string;
+  description?: string;
+  createdAt: string | Date;
   learningObjectives?: LearningObjective[];
   reasoning?: string;
   resources?: Resource[];
@@ -14,7 +14,7 @@ export interface LearningObjective {
   id: string;
   topicId: string;
   title: string;
-  description: string;
+  description?: string;
   reasoning?: string;
   milestones?: Milestone[];
 }
@@ -22,8 +22,8 @@ export interface LearningObjective {
 export interface Milestone {
   id: string;
   title: string;
-  learningObjectivesId: string;
-  description: string;
+  learningObjectiveId: string;
+  description?: string;
   tasks?: Task[];
 }
 
@@ -31,14 +31,14 @@ export interface Task {
   id: string;
   title: string;
   milestoneId: string;
-  description: string;
+  description?: string;
   completed: boolean;
 }
 
-export interface Resource{
+export interface Resource {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   link: string;
 }
 
@@ -46,6 +46,6 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
