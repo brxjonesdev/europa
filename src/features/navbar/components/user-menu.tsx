@@ -31,6 +31,7 @@ export default function UserMenu({ user }: { user: User }) {
     if (error) {
       console.error('Error signing out:', error);
     }
+    router.refresh();
     router.push('/');
   };
   return (

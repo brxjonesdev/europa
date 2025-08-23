@@ -1,14 +1,29 @@
+"use client"
 import AuthButton from '@/features/auth/components/auth-button';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 import Logo from '@/features/navbar/components/logo';
 import UserMenu from '@/features/navbar/components/user-menu';
 import Link from 'next/link';
+import React from 'react';
+import { User } from '@supabase/supabase-js';
+import { motion } from "framer-motion";
+export default function EuropaNavbar() {
+  const [user, setUser] = React.useState<User | null | "error">(null);
 
-export default async function EuropaNavbar() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  React.useEffect(() => {
+    async function fetchUser() {
+      const supabase = await createClient();
+      const {
+        data: { user }, error
+      } = await supabase.auth.getUser();
+      if (error) {
+        setUser("error");
+      } else {
+        setUser(user);
+      }
+    }
+    fetchUser();
+  }, []);
   return (
     <header className='sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container mx-auto px-4  '>
@@ -25,17 +40,22 @@ export default async function EuropaNavbar() {
           </div>
 
           {/* Right side */}
-          <div className='flex items-center gap-4'>
+          <motion.div
+            className='flex items-center gap-4'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className='flex items-center gap-2'>
-              {user ? (
+              {user && user !== "error" && (
                 <div className='flex items-center gap-2'>
                   <UserMenu user={user} />
                 </div>
-              ) : (
-                <AuthButton />
               )}
+              {user === null && null}
+              {user === "error" && <AuthButton />}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </header>
