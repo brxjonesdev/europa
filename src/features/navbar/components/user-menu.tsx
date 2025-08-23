@@ -50,7 +50,7 @@ export default function UserMenu({ user }: { user: User }) {
             {user?.user_metadata?.full_name}
           </span>
         </DropdownMenuLabel>
-             <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleUserSignOut}>
           <LogOutIcon size={16} className='opacity-60' aria-hidden='true' />
           <span>Logout</span>

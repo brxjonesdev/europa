@@ -25,13 +25,12 @@ export default async function KnowledgeBase() {
   if (error || !user?.id) {
     redirect('/');
   }
-  
+
   const result = await getUserTopics(user.id);
-  if(!result.ok) {
+  if (!result.ok) {
     redirect('/');
   }
   const topics: Topic[] = result.data;
-
 
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
@@ -41,37 +40,36 @@ export default async function KnowledgeBase() {
           Manage your knowledge base and resources.
         </CardDescription>
         <CardAction>
-          <AddTopicButton/>
+          <AddTopicButton />
         </CardAction>
       </CardHeader>
       <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative grid-rows-auto overflow-y-auto p-4'>
-       <div
-    className="absolute inset-0 z-0"
-    style={{
-      background: "#ffffff",
-      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
-      backgroundSize: "24px 24px",
-    }}
-  />
+        <div
+          className='absolute inset-0 z-0'
+          style={{
+            background: '#ffffff',
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)',
+            backgroundSize: '24px 24px',
+          }}
+        />
         <Suspense fallback={<div>Loading topics...</div>}>
           {topics.map((topic) => (
             <TopicCard key={topic.id} topic={topic} />
           ))}
           {topics.length === 0 && (
-          <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
-            <CardContent className='text-center space-y-2'>
-              <CardTitle className='lg:text-2xl'>No Topics Yet</CardTitle>
-              <CardDescription className='mb-4 text-center'>
-                You haven&apos;t added any topics yet. Click the button above to add
-                your first topic.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        )}
+            <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
+              <CardContent className='text-center space-y-2'>
+                <CardTitle className='lg:text-2xl'>No Topics Yet</CardTitle>
+                <CardDescription className='mb-4 text-center'>
+                  You haven&apos;t added any topics yet. Click the button above
+                  to add your first topic.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          )}
         </Suspense>
       </CardContent>
     </Card>
   );
 }
-
-

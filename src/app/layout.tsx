@@ -31,10 +31,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${epilogue.variable} antialiased font-epilogue h-dvh flex flex-col`} vault-drawer-wrapper=""
+        className={`${geistSans.variable} ${geistMono.variable} ${epilogue.variable} antialiased font-epilogue h-dvh flex flex-col`}
+        vault-drawer-wrapper=''
       >
         <EuropaNavbar />
-      {children}
+        {children}
       </body>
     </html>
   );

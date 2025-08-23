@@ -41,7 +41,6 @@ export default async function Home() {
 
   return (
     <>
-      
       <main>
         {/* Hero */}
         <section className='max-w-6xl mx-auto flex flex-col items-center justify-center space-y-16'>

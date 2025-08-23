@@ -16,7 +16,7 @@ export function keysToSnake<T extends Record<string, any>>(obj: T): any {
       Object.entries(obj).map(([key, value]) => [
         toSnakeCase(key),
         keysToSnake(value),
-      ])
+      ]),
     );
   }
   return obj;
@@ -30,7 +30,7 @@ export function keysToCamel<T extends Record<string, any>>(obj: T): any {
       Object.entries(obj).map(([key, value]) => [
         toCamelCase(key),
         keysToCamel(value),
-      ])
+      ]),
     );
   }
   return obj;

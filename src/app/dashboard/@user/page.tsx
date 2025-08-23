@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardContent
+  CardContent,
 } from '@/shared/ui/card';
 import React from 'react';
 import Avatar from 'boring-avatars';
@@ -16,7 +16,6 @@ export default async function User() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  
 
   const hour = new Date().getHours();
   let greeting = '';
@@ -41,9 +40,11 @@ export default async function User() {
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>
-        <CardTitle>{greeting}, {user?.user_metadata.full_name} </CardTitle>
+        <CardTitle>
+          {greeting}, {user?.user_metadata.full_name}{' '}
+        </CardTitle>
         <CardDescription className='text-[0.65rem] max-w-xs font-mono'>
-          <LogoutButton/>
+          <LogoutButton />
         </CardDescription>
         <CardAction>
           <Avatar
@@ -56,15 +57,9 @@ export default async function User() {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <section>
-          {/* Streaks go here */}
-        </section>
-        <section>
-          {/* Progress on goals goes here */}
-        </section>
-        <section>
-          {/* Milestones go here */}
-        </section>
+        <section>{/* Streaks go here */}</section>
+        <section>{/* Progress on goals goes here */}</section>
+        <section>{/* Milestones go here */}</section>
       </CardContent>
     </Card>
   );
