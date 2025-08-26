@@ -22,7 +22,7 @@ import Avatar from 'boring-avatars';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
-export default function UserMenu({ user }: { user: User }) {
+export default function UserMenu({ user, onSignOut }: { user: User; onSignOut: () => void }) {
   const supabase = createClient();
   const router = useRouter();
 
@@ -31,7 +31,7 @@ export default function UserMenu({ user }: { user: User }) {
     if (error) {
       console.error('Error signing out:', error);
     }
-    router.refresh();
+    onSignOut();
     router.push('/');
   };
   return (

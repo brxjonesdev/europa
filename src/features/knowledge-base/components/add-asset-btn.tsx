@@ -1,21 +1,58 @@
 import { motion } from 'motion/react';
 import React from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/ui/dialog"
+import Objectives from '@/app/learning/[topicID]/components/tabs/objectives';
+import Resources from '@/app/learning/[topicID]/components/tabs/resources';
+import Notes from '@/app/learning/[topicID]/components/tabs/notes';
+import { PlusCircleIcon } from 'lucide-react';
 
 export default function AddAssetButton({type} : {type: 'objectives' | 'resources' | 'notes'}) {
-  
+
   return (
-    <div
+<Dialog>
+  <DialogTrigger asChild><div
   key="add"
-  className="border-2 border-dashed border-muted-foreground/40 rounded-2xl bg-muted/10 h-full flex flex-col items-center justify-center p-6 text-center transition-colors hover:border-muted-foreground/60 hover:bg-muted/20 cursor-pointer"
+  className=" rounded-2xl  h-full flex flex-col items-center justify-center text-center transition-colors hover:border-muted-foreground/60 hover:bg-muted/20 bg-muted/10 cursor-pointer"
 >
   <motion.div
-    className="border border-muted-foreground/30 bg-card shadow-sm p-3 rounded-lg flex items-center justify-center w-full h-full"
-    whileHover={{ scale: 1.1 }}
+    className="bg-transparentshadow-lg  rounded-lg flex items-center justify-center "
+    whileHover={{ scale: 1.5 }}
     whileTap={{ scale: 0.95 }}
   >
-    <span className="text-lg font-bold">+ Add a new {type.slice(0, -1)}</span>
+    <PlusCircleIcon/>
   </motion.div>
-</div>
+</div></DialogTrigger>
+  <DialogContent>
+    <DialogHeader className='space-y-0 gap-1'>
+      <DialogTitle>Add a new {type.slice(0, -1)}</DialogTitle>
+      <DialogDescription>
+        Please fill in the details for the new {type.slice(0, -1)}.
+      </DialogDescription>
+      <div>
+        {(() => {
+          switch (type) {
+            case 'objectives':
+              return <Objectives />;
+            case 'resources':
+              return <Resources />;
+            case 'notes':
+              return <Notes />;
+            default:
+              return null;
+          }
+        })()}
+      </div>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
 
   );
 }
+

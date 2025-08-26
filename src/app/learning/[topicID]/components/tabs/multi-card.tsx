@@ -97,7 +97,7 @@ export default function MultiCard({ type, content }: MultiCardProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className='space-y-4 grid grid-cols-3 gap-4 grid-rows-[repeat(auto-fill,minmax(200px,1fr))]'
+        className='space-y-4 flex flex-col lg:grid lg:grid-cols-3 lg:gap-4 grid-rows-[repeat(auto-fill,minmax(200px,1fr))]'
         initial='hidden'
         animate='visible'
         exit='hidden'

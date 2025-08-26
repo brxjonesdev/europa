@@ -8,7 +8,7 @@ import React from 'react';
 import { User } from '@supabase/supabase-js';
 import { motion } from "framer-motion";
 export default function EuropaNavbar() {
-  const [user, setUser] = React.useState<User | null | "error">(null);
+  const [user, setUser] = React.useState<User | null | "signin">(null);
 
   React.useEffect(() => {
     async function fetchUser() {
@@ -17,7 +17,7 @@ export default function EuropaNavbar() {
         data: { user }, error
       } = await supabase.auth.getUser();
       if (error) {
-        setUser("error");
+        setUser("signin");
       } else {
         setUser(user);
       }
@@ -47,13 +47,13 @@ export default function EuropaNavbar() {
             transition={{ duration: 0.5 }}
           >
             <div className='flex items-center gap-2'>
-              {user && user !== "error" && (
+              {user && user !== "signin" && (
                 <div className='flex items-center gap-2'>
-                  <UserMenu user={user} />
+                  <UserMenu user={user} onSignOut={() => setUser("signin")} />
                 </div>
               )}
               {user === null && null}
-              {user === "error" && <AuthButton />}
+              {user === "signin" && <AuthButton />}
             </div>
           </motion.div>
         </div>

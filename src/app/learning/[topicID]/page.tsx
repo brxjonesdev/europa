@@ -18,11 +18,11 @@ export default async function LearningPage({
 
   return (
     <main className='container mx-auto p-4 flex-1 flex flex-col'>
-      <section className=' border rounded-lg flex-1 flex flex-col md:flex-row'>
-        <div className='md:w-4/12 flex flex-col gap-2 p-2'>
+      <section className=' border rounded-lg flex-1 flex flex-col lg:flex-row'>
+        <div className='lg:w-4/12 flex flex-col gap-2 p-2'>
           <TopicDetails data={topic} />
         </div>
-        <div className='md:w-8/12 flex-1 p-2'>
+        <div className='lg:w-8/12 flex-1 p-2'>
           <ViewSelect data={topic} />
         </div>
       </section>
