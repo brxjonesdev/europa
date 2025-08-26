@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Topic } from '@/features/knowledge-base/types';
 import { Button } from '@/shared/ui/button';
@@ -29,8 +29,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shared/ui/form";
-import { useForm } from "react-hook-form";
+} from '@/shared/ui/form';
+import { useForm } from 'react-hook-form';
 import { updateTopic } from '@/features/knowledge-base/services';
 
 type TopicFormValues = {
@@ -69,17 +69,17 @@ export default function TopicDetails({ data }: { data: Topic }) {
   }
 
   return (
-    <Card className="h-fit shadow-none">
+    <Card className='h-fit shadow-none'>
       <CardHeader>
         <CardTitle>{details.title}</CardTitle>
-        <CardDescription className="text-xs">
+        <CardDescription className='text-xs'>
           {details.description}
         </CardDescription>
         <CardAction>
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                <Edit2 className="mr-2 h-4 w-4" />
+              <Button variant='outline' className='ml-auto'>
+                <Edit2 className='mr-2 h-4 w-4' />
                 <span>Edit Topic</span>
               </Button>
             </DialogTrigger>
@@ -91,38 +91,45 @@ export default function TopicDetails({ data }: { data: Topic }) {
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className='space-y-4'
+                >
                   <FormField
                     control={form.control}
-                    name="title"
+                    name='title'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor="title">Title</FormLabel>
+                        <FormLabel htmlFor='title'>Title</FormLabel>
                         <FormControl>
-                          <input id="title" {...field} className="w-full border rounded p-2" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="description">Description</FormLabel>
-                        <FormControl>
-                          <textarea
-                            id="description"
+                          <input
+                            id='title'
                             {...field}
-                            className="w-full border rounded p-2"
+                            className='w-full border rounded p-2'
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Save</Button>
+                  <FormField
+                    control={form.control}
+                    name='description'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor='description'>Description</FormLabel>
+                        <FormControl>
+                          <textarea
+                            id='description'
+                            {...field}
+                            className='w-full border rounded p-2'
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type='submit'>Save</Button>
                 </form>
               </Form>
             </DialogContent>
@@ -134,7 +141,7 @@ export default function TopicDetails({ data }: { data: Topic }) {
 
       <CardHeader>
         <CardTitle>Overview</CardTitle>
-        <CardDescription className="text-xs">
+        <CardDescription className='text-xs'>
           Insight into the topic&apos;s learning objectives.
         </CardDescription>
       </CardHeader>

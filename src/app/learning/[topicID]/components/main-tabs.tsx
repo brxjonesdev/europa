@@ -6,7 +6,7 @@ import MultiCard from './tabs/multi-card';
 export default function ViewSelect({ data }: { data: Topic }) {
   return (
     <Tabs defaultValue='objectives' className='w-full h-full flex flex-col'>
-      <TabsList className='w-full grid grid-cols-3 bg-black/10'>
+      <TabsList className='w-full grid grid-cols-2 bg-black/10'>
         <TabsTrigger
           value='objectives'
           className='items-center border data-[state=active]:shadow-lg'
@@ -19,12 +19,6 @@ export default function ViewSelect({ data }: { data: Topic }) {
         >
           Resources
         </TabsTrigger>
-        <TabsTrigger
-          value='notes'
-          className='items-center border data-[state=active]:shadow-lg'
-        >
-          Notes
-        </TabsTrigger>
       </TabsList>
 
       <div className='flex-1  p-4 border rounded-md overflow-auto '>
@@ -36,9 +30,6 @@ export default function ViewSelect({ data }: { data: Topic }) {
         </TabsContent>
         <TabsContent value='resources' className='h-full '>
           <MultiCard type='resources' content={data.resources ?? []} />
-        </TabsContent>
-        <TabsContent value='notes' className='h-full '>
-          <MultiCard type='notes' content={data.notes ?? []} />
         </TabsContent>
       </div>
     </Tabs>

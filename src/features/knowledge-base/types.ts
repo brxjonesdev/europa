@@ -16,21 +16,13 @@ export interface LearningObjective {
   title: string;
   description?: string;
   reasoning?: string;
-  milestones?: Milestone[];
-}
-
-export interface Milestone {
-  id: string;
-  title: string;
-  learningObjectiveId: string;
-  description?: string;
   tasks?: Task[];
 }
 
 export interface Task {
   id: string;
   title: string;
-  milestoneId: string;
+  learningObjectiveId: string;
   description?: string;
   completed: boolean;
 }

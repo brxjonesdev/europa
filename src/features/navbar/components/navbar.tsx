@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import AuthButton from '@/features/auth/components/auth-button';
 import { createClient } from '@/lib/supabase/client';
 import Logo from '@/features/navbar/components/logo';
@@ -6,18 +6,19 @@ import UserMenu from '@/features/navbar/components/user-menu';
 import Link from 'next/link';
 import React from 'react';
 import { User } from '@supabase/supabase-js';
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 export default function EuropaNavbar() {
-  const [user, setUser] = React.useState<User | null | "signin">(null);
+  const [user, setUser] = React.useState<User | null | 'signin'>(null);
 
   React.useEffect(() => {
     async function fetchUser() {
       const supabase = await createClient();
       const {
-        data: { user }, error
+        data: { user },
+        error,
       } = await supabase.auth.getUser();
       if (error) {
-        setUser("signin");
+        setUser('signin');
       } else {
         setUser(user);
       }
@@ -47,13 +48,13 @@ export default function EuropaNavbar() {
             transition={{ duration: 0.5 }}
           >
             <div className='flex items-center gap-2'>
-              {user && user !== "signin" && (
+              {user && user !== 'signin' && (
                 <div className='flex items-center gap-2'>
-                  <UserMenu user={user} onSignOut={() => setUser("signin")} />
+                  <UserMenu user={user} onSignOut={() => setUser('signin')} />
                 </div>
               )}
               {user === null && null}
-              {user === "signin" && <AuthButton />}
+              {user === 'signin' && <AuthButton />}
             </div>
           </motion.div>
         </div>

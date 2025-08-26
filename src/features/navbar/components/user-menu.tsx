@@ -22,7 +22,13 @@ import Avatar from 'boring-avatars';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
-export default function UserMenu({ user, onSignOut }: { user: User; onSignOut: () => void }) {
+export default function UserMenu({
+  user,
+  onSignOut,
+}: {
+  user: User;
+  onSignOut: () => void;
+}) {
   const supabase = createClient();
   const router = useRouter();
 

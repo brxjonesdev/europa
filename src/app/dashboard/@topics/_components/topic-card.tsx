@@ -1,10 +1,5 @@
 import Link from 'next/link';
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import {
   Calendar,
   Target,
@@ -74,71 +69,71 @@ export default function TopicCard({ topic }: { topic: Topic }) {
               {topic.title}
             </CardTitle>
             {isEmpty ? (
-            <div className='flex flex-col items-center justify-center py-6 text-center bg-black/10 rounded-xl flex-1'>
-              <div className='rounded-full bg-muted p-3 mb-3'>
-                <BookOpen className='h-5 w-5 text-muted-foreground' />
+              <div className='flex flex-col items-center justify-center py-6 text-center bg-black/10 rounded-xl flex-1'>
+                <div className='rounded-full bg-muted p-3 mb-3'>
+                  <BookOpen className='h-5 w-5 text-muted-foreground' />
+                </div>
+                <p className='text-sm text-muted-foreground mb-2'>
+                  No learning objectives yet
+                </p>
+                <div className='flex items-center gap-1 text-xs text-muted-foreground/80'>
+                  <Plus className='h-3 w-3' />
+                  <span>Click to add objectives</span>
+                </div>
               </div>
-              <p className='text-sm text-muted-foreground mb-2'>
-                No learning objectives yet
-              </p>
-              <div className='flex items-center gap-1 text-xs text-muted-foreground/80'>
-                <Plus className='h-3 w-3' />
-                <span>Click to add objectives</span>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className='flex items-center justify-between text-xs text-muted-foreground flex-1'>
-                <div className='flex items-center gap-4'>
-                  <div className='flex items-center gap-1'>
-                    <Calendar className='h-3 w-3' />
-                    <span>{formatDate(keysToSnake(topic).created_at)}</span>
+            ) : (
+              <>
+                <div className='flex items-center justify-between text-xs text-muted-foreground flex-1'>
+                  <div className='flex items-center gap-4'>
+                    <div className='flex items-center gap-1'>
+                      <Calendar className='h-3 w-3' />
+                      <span>{formatDate(keysToSnake(topic).created_at)}</span>
+                    </div>
+
+                    {objectiveCount > 0 && (
+                      <div className='flex items-center gap-1'>
+                        <Target className='h-3 w-3' />
+                        <span>
+                          {objectiveCount} objective
+                          {objectiveCount !== 1 ? 's' : ''}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
-                  {objectiveCount > 0 && (
+                  {progress.total > 0 && (
                     <div className='flex items-center gap-1'>
-                      <Target className='h-3 w-3' />
+                      {progress.percentage === 100 ? (
+                        <CheckCircle2 className='h-3 w-3 text-green-600' />
+                      ) : (
+                        <Clock className='h-3 w-3' />
+                      )}
                       <span>
-                        {objectiveCount} objective
-                        {objectiveCount !== 1 ? 's' : ''}
+                        {progress.completed}/{progress.total} tasks
                       </span>
                     </div>
                   )}
                 </div>
 
                 {progress.total > 0 && (
-                  <div className='flex items-center gap-1'>
-                    {progress.percentage === 100 ? (
-                      <CheckCircle2 className='h-3 w-3 text-green-600' />
-                    ) : (
-                      <Clock className='h-3 w-3' />
-                    )}
-                    <span>
-                      {progress.completed}/{progress.total} tasks
-                    </span>
+                  <div className='mt-3'>
+                    <div className='w-full bg-secondary rounded-full h-1.5'>
+                      <div
+                        className='bg-primary h-1.5 rounded-full transition-all duration-300'
+                        style={{ width: `${progress.percentage}%` }}
+                      />
+                    </div>
                   </div>
                 )}
+              </>
+            )}
+
+            {isEmpty && (
+              <div className='flex items-center justify-center gap-1 text-xs text-muted-foreground mt-4 pt-4 border-t border-border/50'>
+                <Calendar className='h-3 w-3' />
+                <span>Created {formatDate(keysToSnake(topic).created_at)}</span>
               </div>
-
-              {progress.total > 0 && (
-                <div className='mt-3'>
-                  <div className='w-full bg-secondary rounded-full h-1.5'>
-                    <div
-                      className='bg-primary h-1.5 rounded-full transition-all duration-300'
-                      style={{ width: `${progress.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-
-          {isEmpty && (
-            <div className='flex items-center justify-center gap-1 text-xs text-muted-foreground mt-4 pt-4 border-t border-border/50'>
-              <Calendar className='h-3 w-3' />
-              <span>Created {formatDate(keysToSnake(topic).created_at)}</span>
-            </div>
-          )}
+            )}
           </div>
           <CardDescription className='text-xs text-muted-foreground line-clamp-2 mt-1'>
             {topic.description || 'No description provided'}

@@ -1,15 +1,14 @@
 import AddAssetButton from '@/features/knowledge-base/components/add-asset-btn';
 import {
   LearningObjective,
-  Note,
   Resource,
 } from '@/features/knowledge-base/types';
 import { AnimatePresence, motion } from 'motion/react';
 import React from 'react';
 
 interface MultiCardProps {
-  type: 'objectives' | 'resources' | 'notes';
-  content: LearningObjective[] | Resource[] | Note[] | null;
+  type: 'objectives' | 'resources';
+  content: LearningObjective[] | Resource[] | null;
 }
 
 export default function MultiCard({ type, content }: MultiCardProps) {
@@ -26,7 +25,7 @@ export default function MultiCard({ type, content }: MultiCardProps) {
     visible: { opacity: 1, y: 0 },
   };
 
-  const renderCard = (item: LearningObjective | Resource | Note) => {
+  const renderCard = (item: LearningObjective | Resource) => {
     switch (type) {
       case 'objectives': {
         const obj = item as LearningObjective;
@@ -36,23 +35,19 @@ export default function MultiCard({ type, content }: MultiCardProps) {
             {obj.description && (
               <p className='text-xs text-muted-foreground'>{obj.description}</p>
             )}
-            {obj.milestones && (
+            {obj.tasks && (
               <div>
                 <span className='text-[10px] text-muted-foreground'>
-                  {obj.milestones.length} milestones
+                  {obj.tasks.length} tasks
                 </span>
-                {obj.milestones.map((milestone) => (
-                  <div key={milestone.id}>
-                    <span className='block text-xs font-semibold'>
-                      {milestone.title}
-                    </span>
-                    {milestone.description && (
-                      <p className='text-xs text-muted-foreground'>
-                        {milestone.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
+                
+              </div>
+            )}
+            {!obj.tasks && (
+              <div>
+                <span className='text-[10px] text-muted-foreground'>
+                  No tasks yet
+                </span>
               </div>
             )}
           </>
@@ -74,20 +69,6 @@ export default function MultiCard({ type, content }: MultiCardProps) {
             >
               Visit
             </a>
-          </>
-        );
-      }
-      case 'notes': {
-        const note = item as Note;
-        return (
-          <>
-            <span className='block text-sm font-semibold'>{note.title}</span>
-            <p className='text-xs text-muted-foreground line-clamp-2'>
-              {note.content}
-            </p>
-            <span className='text-[10px] text-muted-foreground'>
-              Updated {new Date(note.updatedAt).toLocaleDateString()}
-            </span>
           </>
         );
       }

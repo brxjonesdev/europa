@@ -119,7 +119,10 @@ export const KnowledgeBaseRepository = {
 
     return topic;
   },
-  updateTopic: async (id: string, topic: Partial<Topic>): Promise<Result<boolean, string>> => {
+  updateTopic: async (
+    id: string,
+    topic: Partial<Topic>,
+  ): Promise<Result<boolean, string>> => {
     const supabase = await createClient();
     const { error } = await supabase
       .from('topic')
@@ -127,8 +130,7 @@ export const KnowledgeBaseRepository = {
         title: topic.title,
         description: topic.description,
       })
-      .eq('id', id)
-      
+      .eq('id', id);
 
     if (error) {
       return err(`Failed to update topic: ${error.message}`);
