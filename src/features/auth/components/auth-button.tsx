@@ -10,10 +10,10 @@ export default function AuthButton() {
       provider: 'google',
       options: {
         queryParams: {
-          access_type: 'offline',
           prompt: 'consent',
+          access_type: 'offline',
         },
-        redirectTo: `${window.location.origin}/dashboard`,
+        redirectTo: `${window.location.origin}/api/callback`,
       },
     });
   };

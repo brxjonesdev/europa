@@ -1,5 +1,6 @@
 import AddTopicButton from '@/features/knowledge-base/components/add-topic-btn';
-import AddGoalButton from '@/features/knowledge-base/components/add-topic-btn';
+import { getUserTopics } from '@/features/knowledge-base/services';
+import { Topic } from '@/features/knowledge-base/types';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/shared/ui/button';
 import {
@@ -10,9 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
-import { PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
+import TopicCard from './_components/topic-card';
 
 export default async function KnowledgeBase() {
   const supabase = await createClient();
@@ -20,10 +22,17 @@ export default async function KnowledgeBase() {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  if (error || !user) {
+  if (error || !user?.id) {
     redirect('/');
   }
-  const goals = []
+
+  const result = await getUserTopics(user.id);
+  if (!result.ok) {
+    redirect('/');
+  }
+  const topics: Topic[] = result.data;
+  console.log(topics, 'topics');
+
   return (
     <Card className='shadow-none flex-1 px-0 h-full w-full'>
       <CardHeader className='border-b'>
@@ -32,32 +41,36 @@ export default async function KnowledgeBase() {
           Manage your knowledge base and resources.
         </CardDescription>
         <CardAction>
-          <AddTopicButton/>
+          <AddTopicButton />
         </CardAction>
       </CardHeader>
-      <CardContent className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative'>
-       <div
-    className="absolute inset-0 z-0"
-    style={{
-      background: "#ffffff",
-      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
-      backgroundSize: "24px 24px",
-    }}
-  />
-        {goals.length === 0 && (
-          <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
-            <CardContent className='text-center space-y-2'>
-              <CardTitle className='lg:text-2xl'>No Topics Yet</CardTitle>
-              <CardDescription className='mb-4 text-center'>
-                You haven&apos;t added any topics yet. Click the button above to add
-                your first topic.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        )}
+      <CardContent className='flex-1 flex flex-col md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  w-full bg-white relative  overflow-y-auto p-4 grid-rows-[auto]'>
+        <div
+          className='absolute inset-0 z-0'
+          style={{
+            background: '#ffffff',
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <Suspense fallback={<div>Loading topics...</div>}>
+          {topics.map((topic) => (
+            <TopicCard key={topic.id} topic={topic} />
+          ))}
+          {topics.length === 0 && (
+            <Card className='z-10 shadow-xs col-span-full items-center justify-center'>
+              <CardContent className='text-center space-y-2'>
+                <CardTitle className='lg:text-2xl'>No Topics Yet</CardTitle>
+                <CardDescription className='mb-4 text-center'>
+                  You haven&apos;t added any topics yet. Click the button above
+                  to add your first topic.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          )}
+        </Suspense>
       </CardContent>
     </Card>
   );
 }
-
-

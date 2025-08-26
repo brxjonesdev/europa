@@ -1,11 +1,8 @@
 export default function Logo() {
   return (
-    <div
-      className='min-h-4 min-w-8 rounded-full'
-      style={{
-        background:
-          'linear-gradient(135deg, #393d3f, #fdfdff, #c6c5b9, #62929e, #546a7b)',
-      }}
-    />
+    <div className='rounded-full  flex flex-col space-y-0 items-start'>
+      <p className='text-black/80 font-bold text-xl '>Europa</p>
+      <p className='text-xs text-muted-foreground'>self learning tool.</p>
+    </div>
   );
 }
