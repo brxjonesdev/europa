@@ -1,17 +1,20 @@
+"use client"
 import AddAssetButton from '@/features/knowledge-base/components/add-asset-btn';
 import {
   LearningObjective,
   Resource,
 } from '@/features/knowledge-base/types';
 import { AnimatePresence, motion } from 'motion/react';
+import Link from 'next/link';
 import React from 'react';
 
 interface MultiCardProps {
   type: 'objectives' | 'resources';
   content: LearningObjective[] | Resource[] | null;
+  id: string;
 }
 
-export default function MultiCard({ type, content }: MultiCardProps) {
+export default function MultiCard({ type, content, id }: MultiCardProps) {
   const listVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -87,14 +90,16 @@ export default function MultiCard({ type, content }: MultiCardProps) {
         <AddAssetButton type={type} />
         {content &&
           content.map((item) => (
-            <motion.div
-              key={item.id}
-              className='border p-3 rounded-lg shadow-sm bg-card h-full overflow-y-scroll'
-              variants={itemVariants}
-              transition={{ type: 'tween' }}
-            >
-              {renderCard(item)}
-            </motion.div>
+            <Link href={`/learning/${id}/${item.id}`} key={item.id} className='h-full'>
+              <motion.div
+                key={item.id}
+                className='border p-3 rounded-lg shadow-sm bg-card h-full overflow-y-scroll'
+                variants={itemVariants}
+                transition={{ type: 'tween' }}
+              >
+                {renderCard(item)}
+              </motion.div>
+            </Link>
           ))}
       </motion.div>
     </AnimatePresence>

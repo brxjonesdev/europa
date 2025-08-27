@@ -1,8 +1,8 @@
 import React from 'react';
-import ViewSelect from './components/main-tabs';
-import TopicDetails from './components/topic-details';
 import { getTopicById } from '@/features/knowledge-base/services';
 import { redirect } from 'next/navigation';
+import MultiCard from './components/tabs/multi-card';
+
 
 export default async function LearningPage({
   params,
@@ -17,15 +17,15 @@ export default async function LearningPage({
   const topic = result.data;
 
   return (
-    <main className='container mx-auto p-4 flex-1 flex flex-col'>
-      <section className=' border rounded-lg flex-1 flex flex-col lg:flex-row'>
-        <div className='lg:w-4/12 flex flex-col gap-2 p-2'>
-          <TopicDetails data={topic} />
-        </div>
-        <div className='lg:w-8/12 flex-1 p-2'>
-          <ViewSelect data={topic} />
-        </div>
-      </section>
-    </main>
+    <div className='lg:w-8/12 flex-1 p-2 flex flex-col gap-4'>
+      <div className='border-b w-full pb-2 flex gap-2'>
+        <p className='font-sans text-xl font-semibold'>Learning Objectives</p>
+      </div>
+      <MultiCard
+                  type='objectives'
+                  content={topic.objectives ?? []}
+                  id={topic.id}
+                />
+    </div>
   );
 }

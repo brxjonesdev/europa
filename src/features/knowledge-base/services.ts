@@ -1,5 +1,5 @@
 import { Result, ok, err } from '@/shared/types';
-import { LearningObjective, Topic } from './types';
+import { Objective, Topic } from './types';
 import { KnowledgeBaseRepository } from './repository';
 import { keysToSnake } from '@/shared/util';
 
@@ -50,8 +50,8 @@ export const getUserTopics = async (
 // Objectives
 
 export const addLearningObjective = async (
-  objectives: LearningObjective | LearningObjective[],
-): Promise<Result<LearningObjective | LearningObjective[], string>> => {
+  objectives: Objective | Objective[],
+): Promise<Result<Objective | Objective[], string>> => {
   if (Array.isArray(objectives)) {
     const response = await KnowledgeBaseRepository.createManyLearningObjectives(
       keysToSnake(objectives),
@@ -68,4 +68,12 @@ export const addLearningObjective = async (
     return ok(response.data);
   }
   return err(response.error ?? 'Failed to create learning objective');
+};
+
+export const getLearningObjectiveById = async (id: string): Promise<Result<Objective, string>> => {
+  const response = await KnowledgeBaseRepository.getLearningObjectiveById(id);
+  if (!response.ok) {
+    return err(response.error ?? 'Failed to retrieve learning objective');
+  }
+  return ok(response.data);
 };

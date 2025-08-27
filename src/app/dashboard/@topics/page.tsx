@@ -2,7 +2,6 @@ import AddTopicButton from '@/features/knowledge-base/components/add-topic-btn';
 import { getUserTopics } from '@/features/knowledge-base/services';
 import { Topic } from '@/features/knowledge-base/types';
 import { createClient } from '@/lib/supabase/server';
-import { Button } from '@/shared/ui/button';
 import {
   Card,
   CardAction,
@@ -11,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
 import TopicCard from './_components/topic-card';

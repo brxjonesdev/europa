@@ -4,13 +4,11 @@ export interface Topic {
   title: string;
   description?: string;
   createdAt: string | Date;
-  learningObjectives?: LearningObjective[];
+  objectives?: Objective[];
   reasoning?: string;
-  resources?: Resource[];
-  notes?: Note[];
 }
 
-export interface LearningObjective {
+export interface Objective {
   id: string;
   topicId: string;
   title: string;
@@ -22,22 +20,8 @@ export interface LearningObjective {
 export interface Task {
   id: string;
   title: string;
-  learningObjectiveId: string;
+  objectiveId: string;
   description?: string;
   completed: boolean;
 }
 
-export interface Resource {
-  id: string;
-  title: string;
-  description?: string;
-  link: string;
-}
-
-export interface Note {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
-}

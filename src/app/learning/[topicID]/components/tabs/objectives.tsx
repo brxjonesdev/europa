@@ -58,7 +58,7 @@ export default function Objectives() {
               </div>
             </>
           ),
-          validate: (data) => !!data.title && !!data.description,
+          validate: (data) => !!data.title,
         },
         {
           title: 'What is your reasoning?',
@@ -86,7 +86,7 @@ export default function Objectives() {
               <p>{data.reasoning}</p>
             </div>
           ),
-          validate: (data) => !!data.title && !!data.description && !!data.reasoning,
+          validate: (data) => !!data.title && !!data.reasoning,
         }
       ]}
     />

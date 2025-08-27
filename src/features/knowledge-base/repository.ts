@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LearningObjective, Milestone, Task, Topic } from './types';
+import { Objective, Task, Topic } from './types';
 import { createClient } from '@/lib/supabase/client';
 import { err, ok, Result } from '@/shared/types';
 
@@ -13,17 +13,17 @@ export interface KnowledgeBaseRepository {
 
   // Learning Objectives
   createLearningObjective(
-    objective: LearningObjective,
-  ): Promise<LearningObjective>;
+    objective: Objective,
+  ): Promise<Objective>;
   createManyLearningObjectives(
-    objectives: LearningObjective[],
-  ): Promise<LearningObjective[]>;
-  getLearningObjectiveById(id: string): Promise<LearningObjective | null>;
+    objectives: Objective[],
+  ): Promise<Objective[]>;
+  getLearningObjectiveById(id: string): Promise<Objective | null>;
   updateLearningObjective(
-    objective: LearningObjective,
-  ): Promise<LearningObjective | null>;
+    objective: Objective,
+  ): Promise<Objective | null>;
   deleteLearningObjective(id: string): Promise<boolean>;
-  getLearningObjectivesByTopicId(topicId: string): Promise<LearningObjective[]>;
+  getLearningObjectivesByTopicId(topicId: string): Promise<Objective[]>;
 }
 
 export const KnowledgeBaseRepository = {
@@ -57,18 +57,12 @@ export const KnowledgeBaseRepository = {
         title,
         description,
         reasoning,
-        milestone (
+        task (
           id,
-          learning_objective_id,
+          objective_id,
           title,
           description,
-          task (
-            id,
-            milestone_id,
-            title,
-            description,
-            completed
-          )
+          completed
         )
       )
     `,
@@ -89,28 +83,20 @@ export const KnowledgeBaseRepository = {
       description: data.description,
       createdAt: data.created_at,
       reasoning: data.reasoning,
-      learningObjectives: (data.objective || []).map(
-        (obj: any): LearningObjective => ({
+      objectives: (data.objective || []).map(
+        (obj: any): Objective => ({
           id: obj.id,
           topicId: obj.topic_id,
           title: obj.title,
           description: obj.description,
           reasoning: obj.reasoning,
-          milestones: (obj.milestone || []).map(
-            (ms: any): Milestone => ({
-              id: ms.id,
-              learningObjectiveId: ms.learning_objective_id,
-              title: ms.title,
-              description: ms.description,
-              tasks: (ms.task || []).map(
-                (t: any): Task => ({
-                  id: t.id,
-                  milestoneId: t.milestone_id,
-                  title: t.title,
-                  description: t.description,
-                  completed: t.completed,
-                }),
-              ),
+          tasks: (obj.task || []).map(
+            (t: any): Task => ({
+              id: t.id,
+              objectiveId: t.objective_id,
+              title: t.title,
+              description: t.description,
+              completed: t.completed,
             }),
           ),
         }),
@@ -183,14 +169,14 @@ export const KnowledgeBaseRepository = {
         description: item.description,
         createdAt: item.created_at,
         reasoning: item.reasoning,
-        learningObjectives: (item.objective || []).map(
-          (obj: any): LearningObjective => ({
+        objectives: (item.objective || []).map(
+          (obj: any): Objective => ({
             id: obj.id,
             topicId: obj.topic_id,
             title: obj.title,
             description: obj.description,
             reasoning: obj.reasoning,
-            milestones: [], // left empty since not selected here
+            tasks: [], // left empty since not selected here
           }),
         ),
       }),
@@ -199,8 +185,8 @@ export const KnowledgeBaseRepository = {
 
   // Learning Objectives
   createLearningObjective: async (
-    objective: LearningObjective,
-  ): Promise<Result<LearningObjective, string>> => {
+    objective: Objective,
+  ): Promise<Result<Objective, string>> => {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('objective')
@@ -213,8 +199,8 @@ export const KnowledgeBaseRepository = {
     return ok(data);
   },
   createManyLearningObjectives: async (
-    objectives: LearningObjective[],
-  ): Promise<Result<LearningObjective[], string>> => {
+    objectives: Objective[],
+  ): Promise<Result<Objective[], string>> => {
     const supabase = await createClient();
     console.log('Creating multiple learning objectives:', objectives);
     const { data, error } = await supabase.from('objective').insert(objectives);
@@ -225,5 +211,18 @@ export const KnowledgeBaseRepository = {
       return err(`Failed to create learning objectives: ${error.message}`);
     }
     return ok(data ?? []);
+  },
+  getLearningObjectiveById: async (id: string): Promise<Result<Objective, string>> => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('objective')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      return err(`Failed to retrieve learning objective: ${error.message}`);
+    }
+    return ok(data);
   },
 };

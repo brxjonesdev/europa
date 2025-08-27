@@ -29,21 +29,17 @@ function calculateProgress(topic: Topic): {
   total: number;
   percentage: number;
 } {
-  if (!topic.learningObjectives)
+  if (!topic.objectives)
     return { completed: 0, total: 0, percentage: 0 };
 
   let completed = 0;
   let total = 0;
 
-  topic.learningObjectives.forEach((objective) => {
-    if (objective.milestones) {
-      objective.milestones.forEach((milestone) => {
-        if (milestone.tasks) {
-          milestone.tasks.forEach((task) => {
-            total++;
-            if (task.completed) completed++;
-          });
-        }
+  topic.objectives.forEach((objective) => {
+    if (objective.tasks) {
+      objective.tasks.forEach((task) => {
+        total++;
+        if (task.completed) completed++;
       });
     }
   });
@@ -57,7 +53,7 @@ function calculateProgress(topic: Topic): {
 
 export default function TopicCard({ topic }: { topic: Topic }) {
   const progress = calculateProgress(topic);
-  const objectiveCount = topic.learningObjectives?.length || 0;
+  const objectiveCount = topic.objectives?.length || 0;
   const isEmpty = objectiveCount === 0;
 
   return (
