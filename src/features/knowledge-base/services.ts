@@ -51,13 +51,13 @@ export const getUserTopics = async (
 
 export const addLearningObjective = async (
   objectives: Objective | Objective[],
-): Promise<Result<Objective | Objective[], string>> => {
+): Promise<Result<Objective | boolean, string>> => {
   if (Array.isArray(objectives)) {
     const response = await KnowledgeBaseRepository.createManyLearningObjectives(
       keysToSnake(objectives),
     );
     if (response.ok) {
-      return ok(response.data);
+      return ok(true);
     }
     return err(response.error ?? 'Failed to create learning objectives');
   }
@@ -65,7 +65,7 @@ export const addLearningObjective = async (
     keysToSnake(objectives),
   );
   if (response.ok) {
-    return ok(response.data);
+    return ok(response.data as Objective);
   }
   return err(response.error ?? 'Failed to create learning objective');
 };

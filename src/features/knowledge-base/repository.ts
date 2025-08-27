@@ -185,19 +185,19 @@ export const KnowledgeBaseRepository = {
 
   // Learning Objectives
   createLearningObjective: async (
-    objective: Objective,
-  ): Promise<Result<Objective, string>> => {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from('objective')
-      .insert(objective)
-      .single();
+  objective: Objective[],
+): Promise<Result<Objective, string>> => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('objective')
+    .insert(objective)
+    .single();
+  if (error) {
+    return err(`Failed to create learning objective: ${error.message}`);
+  }
+  return ok(data);
+},
 
-    if (error) {
-      return err(`Failed to create learning objective: ${error.message}`);
-    }
-    return ok(data);
-  },
   createManyLearningObjectives: async (
     objectives: Objective[],
   ): Promise<Result<Objective[], string>> => {

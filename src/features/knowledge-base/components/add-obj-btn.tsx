@@ -9,21 +9,16 @@ import {
   DialogTrigger,
 } from '@/shared/ui/dialog';
 import Objectives from '@/app/learning/[topicID]/components/tabs/objectives';
-import Resources from '@/app/learning/[topicID]/components/tabs/resources';
 import { PlusCircleIcon } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
-export default function AddAssetButton({
-  type,
-}: {
-  type: 'objectives' | 'resources' | 'notes';
-}) {
+export default function AddObjectiveButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div
           key='add'
-          className=' rounded-2xl  h-full flex flex-col items-center justify-center text-center transition-colors hover:border-muted-foreground/60 hover:bg-muted/20 bg-muted/10 cursor-pointer'
+          className=' rounded-2xl  min-h-18 lg:h-full flex flex-col items-center justify-center text-center transition-colors hover:border-muted-foreground/60 hover:bg-muted/20 bg-muted/10 cursor-pointer'
         >
           <motion.div
             className='bg-transparent shadow-lg  rounded-lg flex items-center justify-center '
@@ -40,23 +35,14 @@ export default function AddAssetButton({
       >
         <VisuallyHidden>
           <DialogHeader className='space-y-0 gap-1'>
-            <DialogTitle>Add a new {type.slice(0, -1)}</DialogTitle>
+            <DialogTitle>Add a new objective</DialogTitle>
             <DialogDescription>
-              Please fill in the details for the new {type.slice(0, -1)}.
+              Please fill in the details for the new objective.
             </DialogDescription>
           </DialogHeader>
         </VisuallyHidden>
         <div className='max-w-lg mx-auto w-full'>
-          {(() => {
-            switch (type) {
-              case 'objectives':
-                return <Objectives />;
-              case 'resources':
-                return <Resources />;
-              default:
-                return null;
-            }
-          })()}
+          <Objectives />
         </div>
       </DialogContent>
     </Dialog>

@@ -1,20 +1,18 @@
 "use client"
-import AddAssetButton from '@/features/knowledge-base/components/add-asset-btn';
+import AddObjectiveButton from '@/features/knowledge-base/components/add-obj-btn';
 import {
-  LearningObjective,
-  Resource,
+  Objective,
 } from '@/features/knowledge-base/types';
 import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
 import React from 'react';
 
 interface MultiCardProps {
-  type: 'objectives' | 'resources';
-  content: LearningObjective[] | Resource[] | null;
+  content: Objective[] | null;
   id: string;
 }
 
-export default function MultiCard({ type, content, id }: MultiCardProps) {
+export default function MultiCard({ content, id }: MultiCardProps) {
   const listVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -28,54 +26,29 @@ export default function MultiCard({ type, content, id }: MultiCardProps) {
     visible: { opacity: 1, y: 0 },
   };
 
-  const renderCard = (item: LearningObjective | Resource) => {
-    switch (type) {
-      case 'objectives': {
-        const obj = item as LearningObjective;
-        return (
-          <>
-            <span className='block text-sm font-semibold'>{obj.title}</span>
-            {obj.description && (
-              <p className='text-xs text-muted-foreground'>{obj.description}</p>
-            )}
-            {obj.tasks && (
-              <div>
-                <span className='text-[10px] text-muted-foreground'>
-                  {obj.tasks.length} tasks
-                </span>
-                
-              </div>
-            )}
-            {!obj.tasks && (
-              <div>
-                <span className='text-[10px] text-muted-foreground'>
-                  No tasks yet
-                </span>
-              </div>
-            )}
-          </>
-        );
-      }
-      case 'resources': {
-        const res = item as Resource;
-        return (
-          <>
-            <span className='block text-sm font-semibold'>{res.title}</span>
-            {res.description && (
-              <p className='text-xs text-muted-foreground'>{res.description}</p>
-            )}
-            <a
-              href={res.link}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-[10px] text-blue-500 underline'
-            >
-              Visit
-            </a>
-          </>
-        );
-      }
-    }
+  const renderCard = (item: Objective) => {
+    return (
+      <>
+        <span className='block text-sm font-semibold'>{item.title}</span>
+        {item.description && (
+          <p className='text-xs text-muted-foreground'>{item.description}</p>
+        )}
+        {item.tasks && (
+          <div>
+            <span className='text-[10px] text-muted-foreground'>
+              {item.tasks.length} tasks
+            </span>
+          </div>
+        )}
+        {!item.tasks && (
+          <div>
+            <span className='text-[10px] text-muted-foreground'>
+              No tasks yet
+            </span>
+          </div>
+        )}
+      </>
+    );
   };
 
   return (
@@ -87,7 +60,7 @@ export default function MultiCard({ type, content, id }: MultiCardProps) {
         exit='hidden'
         variants={listVariants}
       >
-        <AddAssetButton type={type} />
+        <AddObjectiveButton />
         {content &&
           content.map((item) => (
             <Link href={`/learning/${id}/${item.id}`} key={item.id} className='h-full'>

@@ -1,28 +1,51 @@
+"use client"
 import React from 'react';
-import { LearningObjective} from '@/features/knowledge-base/types';
+import { Objective} from '@/features/knowledge-base/types';
 import { MultiStepForm } from '@/shared/ui/multi-step-form';
 import { Input } from '@/shared/ui/input';
 import { Textarea } from '@/shared/ui/textarea';
 import { Label } from '@/shared/ui/label';
+import { addLearningObjective } from '@/features/knowledge-base/services';
+import { useRouter } from 'next/navigation';
+import {nanoid} from 'nanoid';
+import { useParams } from 'next/navigation';
 
 
-const initialData: LearningObjective = {
+
+const initialData: Objective = {
   id: '',
   topicId: '',
   title: '',
   description: '',
   tasks: [],
   reasoning: '',
-  // Add any other fields as necessary
 };
 
 export default function Objectives() {
+  const router = useRouter();
+  const params = useParams<{topicID: string}>();
+
   return (
-    <MultiStepForm<LearningObjective>
+    <MultiStepForm<Objective>
       title='Create a New Learning Objective'
       description='Please fill out the details for your new learning objective.'
       initialData={initialData}
-      onSubmit={(data) => console.log(data)}
+      onSubmit={async (data) => {
+        const objID = `obj0-${nanoid(12)}`
+        const objective : Objective = {
+          id: objID,
+          topicId: params.topicID,
+          title: data.title,
+          description: data.description,
+          reasoning: data.reasoning,
+        }
+        const result = await addLearningObjective(objective);
+        if (!result.ok){
+          console.error('Error adding learning objective:', result.error);
+          return;
+        }
+        router.push(`/learning/${params.topicID}/${objID}`);
+      }}
       type='Objective'
       successContent={
         <div className='space-y-2'>
